@@ -82,16 +82,22 @@ const App = () => {
   // --- STATES ---
   const [isLoading, setIsLoading] = useState(true);
   const [downloadProgress, setDownloadProgress] = useState(0);
-  const [lang, setLang] = useState('en'); // Default language
+  const [lang, setLang] = useState('en'); 
   const [isDark, setIsDark] = useState(false);
+  const [isLangOpen, setIsLangOpen] = useState(false); 
 
-  // Efek Loading Awal
+  const languages = [
+    { code: 'en', label: 'English' },
+    { code: 'id', label: 'Indonesia' },
+    { code: 'zh', label: '中文 (ZH)' },
+    { code: 'ja', label: '日本語 (JA)' }
+  ];
+
   useEffect(() => {
     const timer = setTimeout(() => setIsLoading(false), 2000);
     return () => clearTimeout(timer);
   }, []);
 
-  // Efek Dark Mode Logic
   useEffect(() => {
     if (isDark) {
       document.documentElement.classList.add('dark');
@@ -126,7 +132,6 @@ const App = () => {
   const yDecor = useTransform(scrollYProgress, [0, 1], ["0%", "-50%"]);
   const yText = useTransform(scrollYProgress, [0, 1], ["0%", "15%"]);
 
-  // --- KAMUS BAHASA (DICTIONARY) ---
   const dict = {
     en: {
       nav: { about: "About", exp: "Experience", proj: "Projects", contact: "Contact Me" },
@@ -180,7 +185,6 @@ const App = () => {
 
   const currentDict = dict[lang];
 
-  // --- DATA PROFIL MULTILINGUAL ---
   const data = {
     name: "Yoseph Zosimus",
     lastName: "Sakera",
@@ -251,7 +255,7 @@ const App = () => {
             "采用SCRUM框架方法进行开发。",
             "使用Laravel和PHP实现完整的后端逻辑。",
             "集成了租客管理的报告功能。",
-            "集成安全的支付网关，实现每月租金的自动无缝交易。",
+            "集成安全的支付网関，实现每月租金的自动无缝交易。",
             "设计了直观的仪表板以监控房间入住率和财务记录。"
           ],
           ja: [
@@ -292,8 +296,8 @@ const App = () => {
             "实现端到端全栈开发。",
             "优化数据库查询以加快数据检索速度。",
             "设计注重运营效率。",
-            "实施基于角色的访问控制（RBAC）以确保用户授权的安全。",
-            "开发了响应式界面，实现跨桌面和移动设备的无缝访问。"
+            "实施基于角色のアクセス制御（RBAC）以確保ユーザー授権の安全。",
+            "開発したレスポンシブなインターフェースでデスクトップとモバイルのシームレスなアクセスを実現。"
           ],
           ja: [
             "エンドツーエンドのフルスタック開発の実装。",
@@ -345,23 +349,60 @@ const App = () => {
         </div>
 
         <div className="flex items-center gap-4">
-          {/* Toggles Bahasa & Mode */}
-          <div className="flex items-center gap-1 font-bold text-sm border-2 border-black dark:border-white px-2 py-1 bg-white dark:bg-black text-black dark:text-white hover:border-[#ff4500] transition-colors relative">
-            <FaGlobe />
-            <select 
-              value={lang} 
-              onChange={(e) => setLang(e.target.value)}
-              className="bg-transparent text-black dark:text-white outline-none cursor-pointer uppercase appearance-none text-center pl-1"
-            >
-              <option value="en" className="text-black">EN</option>
-              <option value="id" className="text-black">ID</option>
-              <option value="zh" className="text-black">ZH</option>
-              <option value="ja" className="text-black">JA</option>
-            </select>
-          </div>
           
-          <button onClick={() => setIsDark(!isDark)} className="p-2 border-2 border-black dark:border-white bg-white dark:bg-black text-black dark:text-white hover:bg-[#ff4500] hover:text-white transition-colors">
-            {isDark ? <FaSun /> : <FaMoon />}
+          {/* CUSTOM DROPDOWN BAHASA (FIXED BUG) */}
+          <div 
+            className="relative" 
+            onMouseEnter={() => setIsLangOpen(true)}
+            onMouseLeave={() => setIsLangOpen(false)}
+          >
+            <button 
+              onClick={() => setIsLangOpen(!isLangOpen)}
+              className="flex items-center gap-2 font-bold text-sm border-2 border-black dark:border-white px-3 py-1.5 bg-white dark:bg-black text-black dark:text-white hover:border-[#ff4500] dark:hover:border-[#ff4500] hover:text-[#ff4500] transition-all"
+            >
+              <FaGlobe className="text-lg" /> {lang.toUpperCase()}
+            </button>
+            
+            <AnimatePresence>
+              {isLangOpen && (
+                <motion.div 
+                  initial={{ opacity: 0, y: 15, scale: 0.95 }}
+                  animate={{ opacity: 1, y: 0, scale: 1 }}
+                  exit={{ opacity: 0, y: 10, scale: 0.95 }}
+                  transition={{ duration: 0.2, ease: "easeOut" }}
+                  /* mt-3 を削除し、top-full と pt-3 を追加。
+                     これによりボタンとメニューが「透明なパディング」でつながり、
+                     マウスが隙間を通ってもメニューが閉じなくなります。
+                  */
+                  className="absolute right-0 top-full pt-3 w-40 z-50"
+                >
+                  <div className="bg-white dark:bg-black border-2 border-black dark:border-white shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] dark:shadow-[4px_4px_0px_0px_rgba(255,255,255,1)] flex flex-col overflow-hidden">
+                    {languages.map((l) => (
+                      <button
+                        key={l.code}
+                        onClick={() => {
+                          setLang(l.code);
+                          setIsLangOpen(false);
+                        }}
+                        className={`text-left px-4 py-3 font-bold text-sm transition-colors border-b-2 last:border-b-0 border-gray-200 dark:border-[#333] ${
+                          lang === l.code 
+                            ? 'bg-[#ff4500] text-white' 
+                            : 'text-black dark:text-white hover:bg-gray-100 dark:hover:bg-[#1a1a1a] hover:text-[#ff4500]'
+                        }`}
+                      >
+                        {l.label}
+                      </button>
+                    ))}
+                  </div>
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </div>
+          {/* AKHIR CUSTOM DROPDOWN BAHASA */}
+
+          {/* Tombol Dark Mode */}
+          <button onClick={() => setIsDark(!isDark)} className="p-2 border-2 border-black dark:border-white bg-white dark:bg-black text-black dark:text-white hover:bg-[#ff4500] hover:border-[#ff4500] hover:text-white transition-colors">
+            {isDark ? <FaSun className="text-lg" /> : <FaMoon className="text-lg" />}
           </button>
           
           <a href={data.contact.wa} target="_blank" rel="noreferrer" className="hidden md:flex bg-black dark:bg-white text-white dark:text-black px-6 py-2 font-bold uppercase text-sm hover:bg-[#25D366] dark:hover:bg-[#25D366] dark:hover:text-white transition-colors shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] dark:shadow-[4px_4px_0px_0px_rgba(255,255,255,1)] items-center gap-2">
