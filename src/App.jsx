@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { motion, useScroll, useTransform, AnimatePresence } from 'framer-motion';
 import { FaGithub, FaLinkedin, FaEnvelope, FaWhatsapp, FaDownload, FaMoon, FaSun, FaGlobe } from 'react-icons/fa';
+import './App.css';
 
 // --- KOMPONEN PROJECT CARD (DENGAN AUTO-SLIDER 3 FOTO) ---
 const ProjectCard = ({ project, index, dict }) => {
@@ -81,7 +82,7 @@ const App = () => {
   // --- STATES ---
   const [isLoading, setIsLoading] = useState(true);
   const [downloadProgress, setDownloadProgress] = useState(0);
-  const [lang, setLang] = useState('en'); // 'en' atau 'id'
+  const [lang, setLang] = useState('en'); // Default language
   const [isDark, setIsDark] = useState(false);
 
   // Efek Loading Awal
@@ -150,12 +151,36 @@ const App = () => {
       exp: { title: "Pengalaman Kerja" },
       proj: { title: "Proyek Pilihan", viewRepo: "Lihat Repositori" },
       loading: "Memuat..."
+    },
+    zh: {
+      nav: { about: "关于", exp: "经验", proj: "项目", contact: "联系我" },
+      hero: {
+        hello: "你好", world: "世界。", iam: "我是",
+        desc: "一名前端/全栈开发人员，专注于构建高效系统和现代Web应用程序。",
+        viewWork: "查看作品", dlCV: "下载简历", dlLoading: "下载中", dlDone: "下载完成!"
+      },
+      about: { title: "概述" },
+      exp: { title: "工作与经验" },
+      proj: { title: "我的项目", viewRepo: "查看仓库" },
+      loading: "加载中..."
+    },
+    ja: {
+      nav: { about: "概要", exp: "経歴", proj: "プロジェクト", contact: "連絡先" },
+      hero: {
+        hello: "こんにちは", world: "世界。", iam: "私は",
+        desc: "効率的なシステムとモダンなWebアプリケーションの構築に焦点を当てたフルスタック開発者です。",
+        viewWork: "作品を見る", dlCV: "履歴書をダウンロード", dlLoading: "ダウンロード中", dlDone: "完了!"
+      },
+      about: { title: "概要" },
+      exp: { title: "職歴と経験" },
+      proj: { title: "プロジェクト", viewRepo: "リポジトリを見る" },
+      loading: "読み込み中..."
     }
   };
 
   const currentDict = dict[lang];
 
-  // --- DATA PROFIL BILINGUAL ---
+  // --- DATA PROFIL MULTILINGUAL ---
   const data = {
     name: "Yoseph Zosimus",
     lastName: "Sakera",
@@ -167,7 +192,9 @@ const App = () => {
     },
     overview: {
       en: "Fresh graduate in Computer Science focusing on improving operational efficiency through technology. Skilled in database management, system analysis, and developing applications to support business processes.",
-      id: "Lulusan baru Ilmu Komputer yang berfokus pada peningkatan efisiensi operasional melalui teknologi. Terampil dalam manajemen basis data, analisis sistem, dan pengembangan aplikasi untuk mendukung proses bisnis."
+      id: "Lulusan baru Ilmu Komputer yang berfokus pada peningkatan efisiensi operasional melalui teknologi. Terampil dalam manajemen basis data, analisis sistem, dan pengembangan aplikasi untuk mendukung proses bisnis.",
+      zh: "计算机科学应届毕业生，专注于通过技术提高运营效率。精通数据库管理、系统分析以及开发支持业务流程的应用程序。",
+      ja: "技術を通じて業務効率を向上させることに注力しているコンピュータサイエンスの新卒者。データベース管理、システム分析、ビジネスプロセスをサポートするアプリケーションの開発に熟練しています。"
     },
     experience: [
       {
@@ -177,7 +204,9 @@ const App = () => {
         logo: "/sidigs-logo.png",
         desc: {
           en: "Developed student websites for managing laundry and UKS. Created a teacher portal for exporting weekly, monthly, and yearly reports to PDF/Excel. Maintained and added features using PHP and MySQL.",
-          id: "Mengembangkan situs web siswa untuk mengelola laundry dan UKS. Membuat portal guru untuk mengekspor laporan mingguan, bulanan, dan tahunan ke PDF/Excel. Memelihara dan menambahkan fitur menggunakan PHP dan MySQL."
+          id: "Mengembangkan situs web siswa untuk mengelola laundry dan UKS. Membuat portal guru untuk mengekspor laporan mingguan, bulanan, dan tahunan ke PDF/Excel. Memelihara dan menambahkan fitur menggunakan PHP dan MySQL.",
+          zh: "开发了用于管理洗衣和学校卫生的学生网站。创建了教师门户，可将周、月、年报表导出为PDF/Excel。使用PHP和MySQL维护和添加新功能。",
+          ja: "ランドリーとUKSを管理するための学生ウェブサイトを開発。週次、月次、年次レポートをPDF/Excelにエクスポートする教師用ポータルを作成。PHPとMySQLを使用して機能の保守と追加を行いました。"
         }
       },
       {
@@ -187,7 +216,9 @@ const App = () => {
         logo: "/panorama-logo.png",
         desc: {
           en: "Managed cash flow, developed budgets to support organizational programs, and generated periodic financial reports for the executive board.",
-          id: "Mengelola arus kas, menyusun anggaran untuk mendukung program organisasi, dan membuat laporan keuangan berkala untuk dewan eksekutif."
+          id: "Mengelola arus kas, menyusun anggaran untuk mendukung program organisasi, dan membuat laporan keuangan berkala untuk dewan eksekutif.",
+          zh: "管理现金流，制定预算以支持组织计划，并为执行委员会生成定期财务报告。",
+          ja: "キャッシュフローを管理し、組織のプログラムをサポートする予算を作成し、役員会向けの定期的な財務報告書を作成しました。"
         }
       }
     ],
@@ -197,7 +228,9 @@ const App = () => {
         images: ["/project-lolita-1.png", "/project-lolita-2.png", "/project-lolita-3.png"], 
         desc: {
           en: "A comprehensive website-based management system tailored for boarding house administration.",
-          id: "Sistem manajemen komprehensif berbasis web yang disesuaikan untuk administrasi rumah kost."
+          id: "Sistem manajemen komprehensif berbasis web yang disesuaikan untuk administrasi rumah kost.",
+          zh: "为宿舍管理量身定制的全面基于网站的管理系统。",
+          ja: "下宿管理に特化した包括的なウェブベースの管理システム。"
         },
         points: {
           en: [
@@ -213,6 +246,20 @@ const App = () => {
             "Mengintegrasikan fitur pelaporan untuk manajemen anak kost.",
             "Mengintegrasikan payment gateway yang aman untuk transaksi sewa bulanan otomatis.",
             "Merancang dasbor intuitif untuk memantau hunian kamar dan catatan keuangan."
+          ],
+          zh: [
+            "采用SCRUM框架方法进行开发。",
+            "使用Laravel和PHP实现完整的后端逻辑。",
+            "集成了租客管理的报告功能。",
+            "集成安全的支付网关，实现每月租金的自动无缝交易。",
+            "设计了直观的仪表板以监控房间入住率和财务记录。"
+          ],
+          ja: [
+            "SCRUMフレームワーク手法を適用して開発。",
+            "LaravelとPHPを使用して完全なバックエンドロジックを実装。",
+            "下宿人管理のためのレポート機能を統合。",
+            "自動かつシームレスな月額家賃取引のための安全な支払いゲートウェイを統合。",
+            "部屋の稼働率と財務記録を監視するための直感的なダッシュボードを設計。"
           ]
         },
         link: "https://github.com/SlayerrR18/kost-lolita.git"
@@ -222,7 +269,9 @@ const App = () => {
         images: ["/project-barnboss-1.png", "/project-barnboss-2.png", "/project-barnboss-3.png"],
         desc: {
           en: "A management application designed for tracking and controlling business operations efficiently.",
-          id: "Aplikasi manajemen yang dirancang untuk melacak dan mengendalikan operasi bisnis secara efisien."
+          id: "Aplikasi manajemen yang dirancang untuk melacak dan mengendalikan operasi bisnis secara efisien.",
+          zh: "一款旨在高效跟踪和控制业务运营的管理应用程序。",
+          ja: "事業運営を効率的に追跡・管理するために設計された管理アプリケーション。"
         },
         points: {
           en: [
@@ -238,6 +287,20 @@ const App = () => {
             "Dirancang dengan fokus pada efisiensi operasional.",
             "Menerapkan Kontrol Akses Berbasis Peran (RBAC) untuk otorisasi pengguna yang aman.",
             "Mengembangkan antarmuka responsif untuk aksesibilitas lintas perangkat."
+          ],
+          zh: [
+            "实现端到端全栈开发。",
+            "优化数据库查询以加快数据检索速度。",
+            "设计注重运营效率。",
+            "实施基于角色的访问控制（RBAC）以确保用户授权的安全。",
+            "开发了响应式界面，实现跨桌面和移动设备的无缝访问。"
+          ],
+          ja: [
+            "エンドツーエンドのフルスタック開発の実装。",
+            "データ検索を高速化するためのデータベースクエリの最適化。",
+            "運用効率を重視した設計。",
+            "安全なユーザー承認のためのロールベースアクセス制御（RBAC）の実装。",
+            "デスクトップおよびモバイルデバイス間でシームレスにアクセスできるレスポンシブなインターフェースを開発。"
           ]
         },
         link: "https://github.com/SlayerrR18/BarnBoss.git"
@@ -283,9 +346,20 @@ const App = () => {
 
         <div className="flex items-center gap-4">
           {/* Toggles Bahasa & Mode */}
-          <button onClick={() => setLang(lang === 'en' ? 'id' : 'en')} className="flex items-center gap-1 font-bold text-sm border-2 border-black dark:border-white px-2 py-1 bg-white dark:bg-black text-black dark:text-white hover:bg-[#ff4500] hover:text-white transition-colors">
-            <FaGlobe /> {lang.toUpperCase()}
-          </button>
+          <div className="flex items-center gap-1 font-bold text-sm border-2 border-black dark:border-white px-2 py-1 bg-white dark:bg-black text-black dark:text-white hover:border-[#ff4500] transition-colors relative">
+            <FaGlobe />
+            <select 
+              value={lang} 
+              onChange={(e) => setLang(e.target.value)}
+              className="bg-transparent text-black dark:text-white outline-none cursor-pointer uppercase appearance-none text-center pl-1"
+            >
+              <option value="en" className="text-black">EN</option>
+              <option value="id" className="text-black">ID</option>
+              <option value="zh" className="text-black">ZH</option>
+              <option value="ja" className="text-black">JA</option>
+            </select>
+          </div>
+          
           <button onClick={() => setIsDark(!isDark)} className="p-2 border-2 border-black dark:border-white bg-white dark:bg-black text-black dark:text-white hover:bg-[#ff4500] hover:text-white transition-colors">
             {isDark ? <FaSun /> : <FaMoon />}
           </button>
